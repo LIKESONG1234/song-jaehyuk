@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import fallbackData from "../data.json";
 import { 
   User, 
+// ... (rest of imports)
   Briefcase, 
   Award, 
   Mail, 
@@ -71,7 +73,10 @@ export default function App() {
         setEditData(d);
       })
       .catch((err) => {
-        console.error("Failed to fetch portfolio:", err);
+        console.warn("API fetch failed, using fallback data:", err);
+        // Use fallback data from data.json if API fails (e.g. on static hosting like Netlify)
+        setData(fallbackData as PortfolioData);
+        setEditData(fallbackData as PortfolioData);
       });
   }, []);
 
