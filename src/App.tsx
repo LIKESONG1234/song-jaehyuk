@@ -62,10 +62,16 @@ export default function App() {
 
   useEffect(() => {
     fetch("/api/portfolio")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
       .then((d) => {
         setData(d);
         setEditData(d);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch portfolio:", err);
       });
   }, []);
 
